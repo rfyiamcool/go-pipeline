@@ -1,13 +1,3 @@
-## go-pipeline
-
-`merge request`
-
-if task's count is grater than `batchSize`, then handle callback, else sleep `maxPeriod` duration. 
-while sleep `maxPeriod` duration, if task count is gaterh than `batchSize`, handle at once.
-
-### Example
-
-```go
 package main
 
 import (
@@ -28,21 +18,21 @@ var (
 
 func init() {
 	callback := func(srcs []interface{}) error {
-			if len(srcs) > 50 {
-				panic("the length must < 10")
-			}
+		if len(srcs) > 10 {
+			panic("the length must < 10")
+		}
 
-			fmt.Printf("handle data => %+v \n", srcs)
+		fmt.Printf("handle data => %+v \n", srcs)
 
-			for i := 0; i < len(srcs); i++ {
-				wg.Done()
-			}
-			return nil
-}
+		for i := 0; i < len(srcs); i++ {
+			wg.Done()
+		}
+		return nil
+	}
 	taskHandler = pipeline.NewMergeRequests(
 		"hello_world",
 		callback,
-		pipeline.SetBatchSize(50),
+		pipeline.SetBatchSize(10),
 		pipeline.SetMinWorkerNum(1),
 		pipeline.SetMaxWorkerNum(1),
 		pipeline.SetPeriod(1*time.Second),
@@ -63,4 +53,3 @@ func main() {
 
 	wg.Wait()
 }
-```
