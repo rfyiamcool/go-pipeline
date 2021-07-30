@@ -2,8 +2,10 @@
 
 `merge request`
 
-if task's count is grater than `batchSize`, then handle callback, else sleep `maxPeriod` duration. 
-while sleep `maxPeriod` duration, if task count is gaterh than `batchSize`, handle at once.
+if task's count is grater than `batchSize`, then handle callback, otherwise wait `maxPeriod` duration. 
+while sleep `maxPeriod` duration, if task's count is gaterh than `batchSize`, handle at once.
+
+![](go-pipeline.jpg)
 
 ### Example
 
@@ -28,7 +30,7 @@ var (
 
 func init() {
 	callback := func(srcs []interface{}) error {
-			if len(srcs) > 50 {
+			if len(srcs) > 10 {
 				panic("the length must < 10")
 			}
 
